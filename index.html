@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Seoul — Wallpaper App</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--pink:#FF5FA0;--purp:#9B4DFF;--cyan:#60DDFF;--bg:#06040F;--card:rgba(255,255,255,0.04);--bdr:rgba(255,255,255,0.08);--text:#F8F0FF;--muted:rgba(248,240,255,0.45)}
+html,body{width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 36px;background:rgba(6,4,15,0.65);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;font-weight:300;background:linear-gradient(135deg,var(--pink),#C080FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+.nav-tabs{display:flex;gap:4px}
+.tab{padding:7px 18px;border-radius:20px;font-size:13px;color:var(--muted);cursor:pointer;border:1px solid transparent;transition:.2s}
+.tab:hover,.tab.on{color:var(--text);border-color:var(--bdr);background:rgba(255,255,255,0.06)}
+.page{display:none;position:relative;z-index:1}
+.page.on{display:block}
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px}
+.badge{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:24px;font-weight:500;padding:6px 18px;border-radius:20px;border:1px solid rgba(255,95,160,0.3);background:rgba(255,95,160,0.07)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(72px,13vw,140px);font-weight:300;line-height:.9;letter-spacing:-2px;background:linear-gradient(160deg,#fff 20%,var(--pink) 60%,var(--purp) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:24px;animation:up 1.2s cubic-bezier(.22,1,.36,1) both}
+.hero-sub{color:var(--muted);font-size:16px;line-height:1.8;max-width:400px;margin-bottom:44px;animation:up 1s .2s cubic-bezier(.22,1,.36,1) both}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:up 1s .4s cubic-bezier(.22,1,.36,1) both}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:14px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:.2s}
+.btn-p{background:linear-gradient(135deg,var(--pink),var(--purp));color:#fff}
+.btn-p:hover{opacity:.85;transform:translateY(-2px);box-shadow:0 12px 40px rgba(155,77,255,.4)}
+.btn-g{background:rgba(255,255,255,.06);border:1px solid var(--bdr);color:var(--text)}
+.btn-g:hover{background:rgba(255,255,255,.1);border-color:rgba(155,77,255,.5)}
+.stats{display:flex;margin-top:72px;border:1px solid var(--bdr);border-radius:20px;overflow:hidden;background:rgba(255,255,255,.03);backdrop-filter:blur(10px);animation:up 1s .6s cubic-bezier(.22,1,.36,1) both}
+.stat{padding:22px 40px;text-align:center;position:relative}
+.stat+.stat::before{content:'';position:absolute;left:0;top:20%;height:60%;width:1px;background:var(--bdr)}
+.sn{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:36px;font-weight:300;color:var(--pink)}
+.sl{font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+/* sections */
+.wrap{max-width:860px;margin:0 auto;padding:100px 24px 0}
+.eye{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--pink);margin-bottom:12px;font-weight:500}
+.stitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(38px,6vw,60px);font-weight:300;line-height:1.05;margin-bottom:52px}
+.stitle em{font-style:normal;background:linear-gradient(135deg,var(--pink),var(--purp));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feat{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:26px;transition:.3s;position:relative;overflow:hidden}
+.feat::after{content:'';position:absolute;inset:0;opacity:0;transition:.3s;background:linear-gradient(135deg,rgba(255,95,160,.06),rgba(155,77,255,.06))}
+.feat:hover::after{opacity:1}
+.feat:hover{border-color:rgba(155,77,255,.35);transform:translateY(-4px)}
+.fi{font-size:26px;margin-bottom:14px}
+.feat h4{font-size:15px;font-weight:500;margin-bottom:7px}
+.feat p{font-size:13px;color:var(--muted);line-height:1.75}
+.cats{display:flex;flex-wrap:wrap;gap:10px}
+.cat{padding:9px 20px;border-radius:24px;font-size:13px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);color:var(--text);cursor:default;transition:.25s}
+.cat:hover{background:rgba(255,95,160,.1);border-color:rgba(255,95,160,.4);transform:translateY(-2px)}
+.steps{max-width:540px}
+.step{display:flex;gap:22px;align-items:flex-start;padding:22px 0}
+.step+.step{border-top:1px solid var(--bdr)}
+.stepn{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:48px;font-weight:300;color:var(--pink);opacity:.4;line-height:1;flex-shrink:0;width:56px}
+.step h4{font-size:17px;font-weight:500;margin-bottom:6px}
+.step p{font-size:13px;color:var(--muted);line-height:1.75}
+.pcard{background:linear-gradient(135deg,rgba(255,95,160,.06),rgba(155,77,255,.06));border:1px solid rgba(155,77,255,.25);border-radius:24px;padding:52px;text-align:center}
+.pcard h3{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:36px;font-weight:300;margin:14px 0 14px}
+.pcard p{color:var(--muted);font-size:15px;line-height:1.8;max-width:440px;margin:0 auto}
+.tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.tags span{padding:6px 16px;border-radius:20px;font-size:12px;background:rgba(255,255,255,.05);border:1px solid var(--bdr)}
+.cta{text-align:center;padding:100px 24px 120px;position:relative;z-index:1}
+.cta h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(44px,7vw,80px);font-weight:300;line-height:1;margin-bottom:18px}
+.cta p{color:var(--muted);margin-bottom:36px;font-size:15px}
+/* inner pages */
+.inner{max-width:680px;margin:0 auto;padding:110px 24px 80px}
+.pgh{text-align:center;margin-bottom:54px}
+.pgh h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(40px,7vw,68px);font-weight:300;background:linear-gradient(135deg,var(--text),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.pgh p{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:20px;padding:30px;margin-bottom:14px;position:relative;overflow:hidden;transition:.2s}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(155,77,255,.35),transparent)}
+.card:hover{border-color:rgba(155,77,255,.3)}
+.cico{font-size:24px;margin-bottom:12px;display:block}
+.card h3{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;font-weight:400;margin-bottom:14px}
+.card p,.card li{color:var(--muted);font-size:14px;line-height:1.8}
+.card p{margin-bottom:10px}.card p:last-child{margin-bottom:0}
+.card ul{list-style:none;display:grid;gap:6px}
+.card li{padding-left:14px;position:relative}
+.card li::before{content:'·';position:absolute;left:0;color:var(--pink);font-size:20px;line-height:1.1}
+.card strong{color:var(--text);font-weight:500}
+.perm{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.pico{font-size:20px;flex-shrink:0;margin-top:2px}
+.pname{font-size:11px;color:var(--cyan);margin-bottom:3px;font-weight:500;letter-spacing:.3px}
+.pdesc{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:6px;margin-top:5px;font-weight:500}
+.tnorm{background:rgba(96,220,255,.1);color:#60DDFF;border:1px solid rgba(96,220,255,.25)}
+.tsafe{background:rgba(0,220,130,.1);color:#00DC82;border:1px solid rgba(0,220,130,.25)}
+footer{text-align:center;padding:30px 24px;border-top:1px solid var(--bdr);color:var(--muted);font-size:13px;position:relative;z-index:1}
+footer a{color:var(--pink);text-decoration:none}
+@media(max-width:680px){
+  nav{padding:12px 18px}.logo{font-size:22px}.tab{padding:6px 12px;font-size:12px}
+  .feats{grid-template-columns:1fr 1fr}.stats{flex-wrap:wrap}.wrap{padding:70px 16px 0}
+  .card{padding:22px}.inner{padding:90px 16px 60px}.pcard{padding:28px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<nav>
+  <div class="logo" onclick="show('home')">Seoul</div>
+  <div class="nav-tabs">
+    <div class="tab on" id="t-home" onclick="show('home')">Home</div>
+    <div class="tab" id="t-privacy" onclick="show('privacy')">Privacy</div>
+    <div class="tab" id="t-terms" onclick="show('terms')">Terms</div>
+    <div class="tab" id="t-perms" onclick="show('perms')">Permissions</div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page on" id="home">
+  <div class="hero">
+    <div class="badge">✦ Wallpaper App</div>
+    <h1>Seoul</h1>
+    <p class="hero-sub">Discover stunning 4K wallpapers. Like, save and set on any screen — no account, completely free.</p>
+    <div class="btns">
+      <div class="btn btn-p">▶ Coming on Play Store</div>
+      <div class="btn btn-g" onclick="show('privacy')">Privacy Policy</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="sn">4K</div><div class="sl">Quality</div></div>
+      <div class="stat"><div class="sn">0</div><div class="sl">Accounts</div></div>
+      <div class="stat"><div class="sn">Free</div><div class="sl">Forever</div></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="eye">✦ Features</div>
+    <div class="stitle">Everything you need,<br/><em>nothing you don't</em></div>
+    <div class="feats">
+      <div class="feat"><div class="fi">🖼️</div><h4>4K Wallpapers</h4><p>Hand-picked ultra-high resolution wallpapers. Every image crisp on any screen.</p></div>
+      <div class="feat"><div class="fi">🔒</div><h4>No Account</h4><p>No sign-up, no login. Likes and saves work instantly with an anonymous session.</p></div>
+      <div class="feat"><div class="fi">🏠</div><h4>Set Wallpaper</h4><p>Home, Lock Screen, or both with one tap. Supports auto-change on a schedule.</p></div>
+      <div class="feat"><div class="fi">❤️</div><h4>Like & Save</h4><p>Like wallpapers and save favourites to revisit anytime, even offline.</p></div>
+      <div class="feat"><div class="fi">📂</div><h4>Playlists</h4><p>Organise wallpapers into custom playlists by mood, category, or colour.</p></div>
+      <div class="feat"><div class="fi">✨</div><h4>AI Generated</h4><p>Exclusive AI-crafted wallpapers you won't find anywhere else, updated regularly.</p></div>
+    </div>
+  </div>
+
+  <div class="wrap" style="margin-top:80px">
+    <div class="eye">✦ Categories</div>
+    <div class="stitle">A wallpaper for<br/><em>every mood</em></div>
+    <div class="cats">
+      <div class="cat">🌙 Dark</div><div class="cat">🌌 Space</div><div class="cat">🌿 Nature</div>
+      <div class="cat">🦊 Animals</div><div class="cat">💕 Valentine's</div><div class="cat">🎌 Anime</div>
+      <div class="cat">❄️ Winter</div><div class="cat">🎨 Abstract</div><div class="cat">✨ AI Generated</div>
+      <div class="cat">📸 4K Ultra</div>
+    </div>
+  </div>
+
+  <div class="wrap" style="margin-top:80px">
+    <div class="eye">✦ How It Works</div>
+    <div class="stitle">Simple as<br/><em>three taps</em></div>
+    <div class="steps">
+      <div class="step"><div class="stepn">01</div><div><h4>Browse</h4><p>Scroll through hundreds of wallpapers. Filter by category, sort by popular or newest.</p></div></div>
+      <div class="step"><div class="stepn">02</div><div><h4>Pick your favourite</h4><p>Tap any wallpaper to view full screen. Like it, save it to a playlist, or share it.</p></div></div>
+      <div class="step"><div class="stepn">03</div><div><h4>Set it</h4><p>Tap SET and choose Home Screen, Lock Screen or both. Done in seconds.</p></div></div>
+    </div>
+  </div>
+
+  <div class="wrap" style="margin-top:80px">
+    <div class="pcard">
+      <div style="font-size:44px">🛡️</div>
+      <h3>Your privacy is respected</h3>
+      <p>Seoul collects no personal data. No login, no tracking, no ads. Your likes and saves stay on your device.</p>
+      <div class="tags">
+        <span>✓ No account</span><span>✓ No ads</span><span>✓ No tracking</span><span>✓ No location</span>
+      </div>
+      <div style="margin-top:24px"><div class="btn btn-g" style="display:inline-flex" onclick="show('privacy')">Read Privacy Policy →</div></div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="eye" style="margin-bottom:20px">✦ Get Seoul</div>
+    <h2>Ready to make your<br/><em style="background:linear-gradient(135deg,var(--pink),var(--purp));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">phone beautiful?</em></h2>
+    <p>Free download · No account · Android 7 and above</p>
+    <div class="btn btn-p" style="display:inline-flex;font-size:16px;padding:16px 40px">▶ Coming on Play Store</div>
+  </div>
+</div>
+
+<!-- PRIVACY -->
+<div class="page" id="privacy">
+  <div class="inner">
+    <div class="pgh"><h2>Privacy Policy</h2><p>Last updated: April 2026 · Simple, honest, short.</p></div>
+    <div class="card"><span class="cico">📦</span><h3>What we collect</h3><ul><li><strong>Anonymous session ID</strong> — A random ID on your device to remember your likes and saves. No personal info.</li><li><strong>Your likes &amp; saves</strong> — Stored with your anonymous ID only.</li><li><strong>Report form</strong> — If you report a wallpaper, we collect name and email to review the report only.</li></ul></div>
+    <div class="card"><span class="cico">🚫</span><h3>What we never collect</h3><ul><li>Your real name or email (no login required)</li><li>Location or GPS data</li><li>Contacts, camera, or microphone</li><li>Any browsing data outside this app</li><li>Device identifiers or IMEI</li></ul></div>
+    <div class="card"><span class="cico">☁️</span><h3>Data storage</h3><p>Your likes and saves are stored <strong>locally on your device</strong>. Nothing personal is sent to our servers. Wallpaper images are stored on secure cloud infrastructure.</p></div>
+    <div class="card"><span class="cico">👶</span><h3>Children</h3><p>Seoul is for users aged <strong>13 and above</strong>. We do not knowingly collect data from children under 13.</p></div>
+    <div class="card"><span class="cico">✉️</span><h3>Contact</h3><p>Questions or data deletion requests:<br/><strong>seoulappofficial@gmail.com</strong></p></div>
+  </div>
+</div>
+
+<!-- TERMS -->
+<div class="page" id="terms">
+  <div class="inner">
+    <div class="pgh"><h2>Terms & Conditions</h2><p>Last updated: April 2026 · By using Seoul, you agree to these terms.</p></div>
+    <div class="card"><span class="cico">✅</span><h3>You can</h3><ul><li>Download and set wallpapers on your personal device</li><li>Like, save and share wallpapers</li><li>Report content you find inappropriate</li></ul></div>
+    <div class="card"><span class="cico">🚫</span><h3>You cannot</h3><ul><li>Hack, reverse-engineer or attack the app</li><li>Upload illegal, adult or harmful content</li><li>Use bots or scripts to access wallpapers</li><li>Redistribute wallpapers commercially without permission</li></ul></div>
+    <div class="card"><span class="cico">⚠️</span><h3>Content disclaimer</h3><p>Seoul is a wallpaper platform. We are <strong>not responsible</strong> for content uploaded without our knowledge through unauthorized means.</p><p>We protect the platform with AI content scanning, a reporting system, and immediate deletion tools. If you find inappropriate content, report it — we remove it promptly.</p></div>
+    <div class="card"><span class="cico">©️</span><h3>Copyright / DMCA</h3><p>If you own rights to an image and want it removed, email <strong>seoulappofficial@gmail.com</strong>. We remove infringing content within <strong>72 hours</strong>.</p></div>
+    <div class="card"><span class="cico">⚖️</span><h3>Governing law</h3><p>These terms are governed by the laws of <strong>India</strong>. Continued use means acceptance of any updates.</p></div>
+  </div>
+</div>
+
+<!-- PERMISSIONS -->
+<div class="page" id="perms">
+  <div class="inner">
+    <div class="pgh"><h2>App Permissions</h2><p>Seoul requests only what is necessary. Nothing more.</p></div>
+    <div class="card">
+      <div class="perm"><div class="pico">🌐</div><div><div class="pname">INTERNET</div><div class="pdesc">To load wallpaper images from our servers.</div><span class="tag tnorm">Auto-granted · no popup</span></div></div>
+      <div class="perm"><div class="pico">📶</div><div><div class="pname">ACCESS_NETWORK_STATE</div><div class="pdesc">Checks connection before loading images to prevent errors.</div><span class="tag tnorm">Auto-granted · no popup</span></div></div>
+      <div class="perm"><div class="pico">🖼️</div><div><div class="pname">SET_WALLPAPER</div><div class="pdesc">To apply a wallpaper to Home or Lock Screen when you tap SET.</div><span class="tag tnorm">Auto-granted · no popup</span></div></div>
+      <div class="perm"><div class="pico">💾</div><div><div class="pname">WRITE_EXTERNAL_STORAGE</div><div class="pdesc">Only on Android 9 and below to save wallpapers. Android 10+ doesn't need this.</div><span class="tag tsafe">Android 9 and below only</span></div></div>
+      <div class="perm"><div class="pico">📷</div><div><div class="pname">READ_MEDIA_IMAGES</div><div class="pdesc">On Android 13+ to save wallpapers to your gallery.</div><span class="tag tsafe">Shown as popup when saving</span></div></div>
+    </div>
+    <div class="card"><span class="cico">🔒</span><h3>Screenshot protection</h3><p>Seoul protects wallpaper content — screenshots and screen recording are disabled inside the app. The app also appears blurred in your recent apps list.</p></div>
+    <div class="card"><span class="cico">❌</span><h3>Never requested</h3><ul><li>Location or GPS</li><li>Camera or Microphone</li><li>Contacts or Accounts</li><li>Phone calls or SMS</li><li>Biometrics</li></ul></div>
+  </div>
+</div>
+
+<footer>
+  <p>Made with ♥ for Seoul App &nbsp;·&nbsp; <a href="mailto:seoulappofficial@gmail.com">seoulappofficial@gmail.com</a></p>
+  <p style="margin-top:6px;opacity:.4;font-size:12px">© 2026 Seoul App. All rights reserved.</p>
+</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  const t=document.getElementById('t-'+id);
+  if(t)t.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Plasma WebGL background
+(function(){
+  const canvas=document.getElementById('c');
+  const gl=canvas.getContext('webgl2')||canvas.getContext('webgl');
+  if(!gl)return;
+
+  function shader(type,src){
+    const s=gl.createShader(type);
+    gl.shaderSource(s,src);gl.compileShader(s);return s;
+  }
+
+  const prog=gl.createProgram();
+  gl.attachShader(prog,shader(gl.VERTEX_SHADER,`attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}`));
+  gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,`
+    precision highp float;
+    uniform vec2 R;uniform float T;uniform vec2 M;
+    void main(){
+      vec2 C=gl_FragCoord.xy,ctr=R*.5;
+      C+=(M-ctr)*.00012*length(C-ctr);
+      float z=0.,t=T*.35;
+      vec3 O=vec3(0.);
+      for(float i=0.;i<48.;i++){
+        vec3 p=z*normalize(vec3(C-.5*R,R.y));
+        p.z-=4.;
+        float d=p.y-t;
+        p.x+=.4*(1.+p.y)*sin(d+p.x*.1)*cos(.34*d+p.x*.05);
+        vec2 Q=p.xz;
+        float c=cos(p.y-t),s=sin(p.y-t);
+        Q=vec2(Q.x*c-Q.y*s,Q.x*s+Q.y*c);
+        z+=abs(sqrt(dot(Q,Q))-.25*(5.+p.y))/3.+8e-4;
+        vec4 o=1.+sin(p.y+Q.x*.5+p.z+vec4(2,1,0,8));
+        O+=o.w/z*o.xyz;
+      }
+      vec3 col=tanh(O/1e4);
+      float lum=(col.r+col.g+col.b)/3.;
+      col=mix(col,vec3(1.,.37,.63)*lum*1.5,.6)*.22;
+      gl_FragColor=vec4(col,.95);
+    }
+  `));
+  gl.linkProgram(prog);gl.useProgram(prog);
+
+  const buf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(prog,'p');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+
+  const uR=gl.getUniformLocation(prog,'R');
+  const uT=gl.getUniformLocation(prog,'T');
+  const uM=gl.getUniformLocation(prog,'M');
+  let mx=0,my=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+
+  function resize(){
+    canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+    gl.viewport(0,0,canvas.width,canvas.height);
+  }
+  window.addEventListener('resize',resize);resize();
+
+  const t0=performance.now();
+  (function loop(now){
+    gl.uniform2f(uR,canvas.width,canvas.height);
+    gl.uniform1f(uT,(now-t0)*.001);
+    gl.uniform2f(uM,mx,canvas.height-my);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+    requestAnimationFrame(loop);
+  })(performance.now());
+})();
+</script>
+</body>
+</html>
