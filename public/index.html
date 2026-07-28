@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SeoulWalls — Beautiful 4K Wallpapers</title>
+<meta name="description" content="SeoulWalls brings you stunning 4K wallpapers crafted for your screen. Auto-wallpaper, favorites, and fresh drops every day." />
+<link rel="icon" href="images/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="images/logo.png" alt="" /> SeoulWalls</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="wallpapers.html">Wallpapers</a></li>
+      <li><a href="wallpapers.html#categories">Categories</a></li>
+      <li><a href="#app">Get the App</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="search-box">
+        <span>&#128269;</span>
+        <input type="text" id="navSearch" placeholder="Search wallpapers..." />
+      </div>
+      <a href="#app" class="btn btn-primary">Get the App</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-copy">
+      <h1>Beautiful Moments,<br /><span class="grad-text">Endless Memories.</span></h1>
+      <p class="lead">SeoulWalls brings you the most stunning 4K wallpapers crafted for your screen.</p>
+      <div class="hero-ctas">
+        <a href="#app" class="btn btn-primary">&#128241; Get the App</a>
+        <a href="wallpapers.html" class="btn btn-outline">Explore Wallpapers</a>
+      </div>
+      <div class="feature-row">
+        <div class="feature"><span class="ico">&#127912;</span><div><strong>4K Quality</strong>Ultra HD</div></div>
+        <div class="feature"><span class="ico">&#8635;</span><div><strong>Auto Wallpaper</strong>Daily Fresh</div></div>
+        <div class="feature"><span class="ico">&#9889;</span><div><strong>Lightweight</strong>Fast &amp; Smooth</div></div>
+        <div class="feature"><span class="ico">&#10084;</span><div><strong>Favorites</strong>Save &amp; Share</div></div>
+      </div>
+      <div class="stat-bar" id="statBar">
+        <div class="stat"><b>1M+</b><span>Downloads</span></div>
+        <div class="stat"><b id="statWallpapers">—</b><span>Wallpapers</span></div>
+        <div class="stat"><b>10K+</b><span>Active Users</span></div>
+        <div class="stat"><b>4.8★</b><span>Ratings</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="mock-device mock-tablet">
+        <div class="mock-grid" id="heroGridTablet"></div>
+      </div>
+      <div class="mock-device mock-phone">
+        <div class="mock-grid" id="heroGridPhone" style="grid-template-columns:repeat(2,1fr);"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="cat-section container" id="categories">
+  <div class="section-head">
+    <h2>Explore Categories</h2>
+    <a href="wallpapers.html" class="view-all">View All →</a>
+  </div>
+  <div class="cat-grid" id="catGrid">
+    <div class="skeleton" style="aspect-ratio:1/1"></div>
+    <div class="skeleton" style="aspect-ratio:1/1"></div>
+    <div class="skeleton" style="aspect-ratio:1/1"></div>
+    <div class="skeleton" style="aspect-ratio:1/1"></div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="auto-banner">
+    <div>
+      <span class="eyebrow">Auto-Wallpaper</span>
+      <h2>Fresh new look every day!</h2>
+      <p>Let SeoulWalls change your wallpaper automatically and keep your screen inspiring.</p>
+      <a href="#app" class="btn btn-primary">Learn More</a>
+    </div>
+    <div class="auto-visual">
+      <div class="card-stack" style="left:20%; transform:rotate(-8deg);"></div>
+      <div class="card-stack" style="right:20%; transform:rotate(8deg);"></div>
+      <div class="center-phone"></div>
+    </div>
+  </div>
+</section>
+
+<section class="container" id="featured" style="margin-bottom:70px;">
+  <div class="section-head">
+    <h2>Featured Wallpapers</h2>
+    <a href="wallpapers.html" class="view-all">View All →</a>
+  </div>
+  <div class="wall-grid" id="featuredGrid">
+    <div class="skeleton" style="aspect-ratio:9/16"></div>
+    <div class="skeleton" style="aspect-ratio:9/16"></div>
+    <div class="skeleton" style="aspect-ratio:9/16"></div>
+    <div class="skeleton" style="aspect-ratio:9/16"></div>
+    <div class="skeleton" style="aspect-ratio:9/16"></div>
+    <div class="skeleton" style="aspect-ratio:9/16"></div>
+  </div>
+</section>
+
+<section class="container" id="app">
+  <div class="app-banner">
+    <div class="app-banner-left">
+      <img src="images/logo.png" alt="SeoulWalls" class="app-icon" />
+      <div>
+        <h3>SeoulWalls <span class="grad-text">App</span></h3>
+        <p>4K Wallpapers &bull; Auto Change &bull; Save &amp; Share<br />Designed for true wallpaper lovers.</p>
+      </div>
+    </div>
+    <div class="store-badges">
+      <a href="#" class="store-badge">▶ <span>GET IT ON<small>Google Play</small></span></a>
+      <a href="#" class="store-badge">🍎 <span>Download on the<small>App Store</small></span></a>
+      <div class="qr-box"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="brand"><img src="images/logo.png" alt="" /> SeoulWalls</a>
+      <p>Beautiful wallpapers for every mood.<br />Made with ❤ in Seoul.</p>
+      <div class="social-row">
+        <a href="#">𝕏</a><a href="#">◎</a><a href="#">f</a>
+      </div>
+    </div>
+    <div><h4>Quick Links</h4><ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="wallpapers.html">Wallpapers</a></li>
+      <li><a href="wallpapers.html#categories">Categories</a></li>
+    </ul></div>
+    <div><h4>Support</h4><ul>
+      <li><a href="about.html">Help Center</a></li>
+      <li><a href="about.html">Contact Us</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms of Use</a></li>
+    </ul></div>
+    <div><h4>Company</h4><ul>
+      <li><a href="about.html">About Us</a></li>
+    </ul></div>
+    <div>
+      <h4>Newsletter</h4>
+      <p style="color:var(--txt-dim); font-size:0.85rem;">Subscribe for updates and new wallpapers.</p>
+      <div class="newsletter-row">
+        <input type="email" placeholder="Enter your email" id="newsEmail" />
+        <button class="btn btn-primary" id="newsBtn">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom container">© 2026 SeoulWalls. All rights reserved.</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

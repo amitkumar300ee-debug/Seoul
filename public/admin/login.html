@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Login — SeoulWalls</title>
+<link rel="icon" href="../images/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-body">
+<div class="login-wrap">
+  <div class="login-card">
+    <img src="../images/logo.png" alt="" />
+    <h1>SeoulWalls Admin</h1>
+    <p class="sub">Sign in to manage wallpapers</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="password">Admin Password</label>
+        <input type="password" id="password" required autofocus />
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+      <div class="error-text" id="errText"></div>
+    </form>
+  </div>
+</div>
+<script src="../js/config.js"></script>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const password = document.getElementById('password').value;
+  const errEl = document.getElementById('errText');
+  errEl.textContent = '';
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/login`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}));
+      throw new Error(d.error || 'Invalid password');
+    }
+    window.location.href = 'dashboard.html';
+  } catch (err) {
+    errEl.textContent = err.message;
+  }
+});
+</script>
+</body>
+</html>

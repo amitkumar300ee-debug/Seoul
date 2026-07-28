@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — SeoulWalls Admin</title>
+<link rel="icon" href="../images/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-side">
+    <div class="brand"><img src="../images/logo.png" alt="" /> SeoulWalls</div>
+    <nav class="admin-nav">
+      <a href="dashboard.html" class="active">Wallpapers</a>
+      <a href="#" id="logoutBtn">Log Out</a>
+      <a href="../index.html">← Back to Site</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-head">
+      <h1>Manage Wallpapers</h1>
+    </div>
+
+    <div class="upload-card">
+      <h3 style="margin-bottom:18px;">Upload New Wallpaper</h3>
+      <form id="uploadForm">
+        <div class="upload-grid">
+          <label class="drop-zone" id="dropZone">
+            <span id="dropZoneText">Click or drop image<br />(portrait, 9:16 ideal)</span>
+            <input type="file" id="imageInput" accept="image/*" required />
+          </label>
+          <div>
+            <div class="field">
+              <label for="title">Title</label>
+              <input type="text" id="title" placeholder="e.g. Neon Seoul Nights" required />
+            </div>
+            <div class="field">
+              <label for="category">Category</label>
+              <input type="text" id="category" list="catList" placeholder="e.g. Cityscape, Nature, K-Drama" required />
+              <datalist id="catList"></datalist>
+            </div>
+            <button class="btn btn-primary" type="submit" id="uploadBtn">Upload Wallpaper</button>
+            <div class="error-text" id="uploadErr"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <h3 style="margin-bottom:14px;">All Wallpapers (<span id="countLabel">0</span>)</h3>
+    <table class="admin-table">
+      <thead><tr><th></th><th>Title</th><th>Category</th><th>Likes</th><th>Downloads</th><th>Uploaded</th><th></th></tr></thead>
+      <tbody id="tableBody">
+        <tr><td colspan="7" style="text-align:center; color:var(--txt-faint); padding:30px;">Loading…</td></tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
