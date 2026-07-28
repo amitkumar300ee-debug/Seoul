@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const id = new URLSearchParams(location.search).get('id');
   if (!id) { document.getElementById('detail').innerHTML = '<p>Wallpaper not found.</p>'; return; }
   try {
-    const { wallpaper: w } = await api(`/api/wallpapers/${id}`);
-    const imgUrl = `${API_BASE}/image/${w.image_key}`;
+    const w = await api(`/api/walls/${id}`); // GET also tracks a view server-side
+    const imgUrl = w.image_url;
     document.title = `${w.title} — SeoulWalls`;
     document.getElementById('detail').innerHTML = `
       <div class="detail-img"><img src="${imgUrl}" alt="${escapeHTML(w.title)}" /></div>
@@ -64,14 +64,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         <span class="cat-pill">${escapeHTML(w.category)}</span>
         <div class="detail-stats">
           <span>❤ ${w.likes || 0} likes</span>
-          <span>⬇ ${w.downloads || 0} downloads</span>
+          <span>👁 ${w.views || 0} views</span>
         </div>
         <a class="btn btn-primary btn-block" href="${imgUrl}" download="${escapeHTML(w.title)}.jpg" id="dlBtn">⬇ Download Wallpaper</a>
         <a class="btn btn-outline btn-block" style="margin-top:12px;" href="wallpapers.html?category=${encodeURIComponent(w.category)}">More in ${escapeHTML(w.category)}</a>
       </div>`;
-    document.getElementById('dlBtn').addEventListener('click', () => {
-      fetch(`${API_BASE}/api/wallpapers/${id}/download`, { method: 'POST' }).catch(() => {});
-    });
   } catch (e) {
     document.getElementById('detail').innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><span>⚠️</span>Couldn't load this wallpaper.</div>`;
   }

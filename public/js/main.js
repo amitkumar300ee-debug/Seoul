@@ -10,8 +10,7 @@ function showToast(msg) {
 
 async function api(path, opts = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+    headers: { 'Content-Type': 'application/json', 'X-App-Key': APP_KEY, ...(opts.headers || {}) },
     ...opts,
   });
   let data = null;
@@ -20,7 +19,7 @@ async function api(path, opts = {}) {
   return data;
 }
 
-// Newsletter (front-end only placeholder — wire to a real list provider later)
+// Newsletter (front-end only placeholder - wire to a real list provider later)
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('newsBtn');
   if (btn) {
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Nav search → jumps to wallpapers page with the query
+  // Nav search -> jumps to wallpapers page with the query
   const navSearch = document.getElementById('navSearch');
   if (navSearch) {
     navSearch.addEventListener('keydown', (e) => {
@@ -43,8 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// wallpaper row shape (from /api/walls): { id, title, category, image_url, thumb_url, likes, views, is_ai, created_at }
 function wallCardHTML(w) {
-  const img = `${API_BASE}/image/${w.image_key}`;
+  const img = w.thumb_url || w.image_url;
   return `
     <a class="wall-card" href="wallpaper.html?id=${w.id}">
       <img src="${img}" alt="${escapeHTML(w.title)}" loading="lazy" />
@@ -53,5 +53,5 @@ function wallCardHTML(w) {
 }
 
 function escapeHTML(str = '') {
-  return str.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
