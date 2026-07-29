@@ -2,7 +2,20 @@
 .hero {
   padding: 70px 0 40px;
   overflow: hidden;
+  position: relative;
 }
+.hero::before, .hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.28;
+  pointer-events: none;
+}
+.hero::before { background: var(--pink); top: -180px; left: -120px; }
+.hero::after { background: var(--purple); top: -60px; right: -160px; }
 .hero .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -11,10 +24,11 @@
 }
 .hero h1 {
   font-family: var(--font-display);
-  font-size: 2.7rem;
+  font-size: 2.85rem;
   font-weight: 800;
   line-height: 1.15;
   margin-bottom: 18px;
+  letter-spacing: -0.01em;
 }
 .hero p.lead {
   color: var(--txt-dim);
@@ -45,11 +59,13 @@
 .stat-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius);
   padding: 20px 10px;
   max-width: 480px;
+  box-shadow: var(--shadow-lift);
 }
 .stat-bar .stat { text-align: center; border-right: 1px solid var(--border); }
 .stat-bar .stat:last-child { border-right: none; }
@@ -68,7 +84,7 @@
   border-radius: 22px;
   overflow: hidden;
   border: 6px solid #1e1628;
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), var(--glow-pink);
 }
 .mock-tablet { width: 100%; max-width: 400px; aspect-ratio: 4/3; }
 .mock-phone {
@@ -107,9 +123,9 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
-.cat-card:hover { transform: translateY(-4px); border-color: var(--pink); }
+.cat-card:hover { transform: translateY(-4px); border-color: var(--pink); box-shadow: var(--shadow-lift), var(--glow-pink); }
 .cat-thumb { aspect-ratio: 1/1; background: var(--bg-alt); position: relative; }
 .cat-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .cat-badge {
@@ -129,13 +145,17 @@
 .auto-banner {
   margin: 70px 0;
   background: var(--grad-soft);
-  border: 1px solid var(--border);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
   border-radius: 24px;
   padding: 50px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   align-items: center;
+  box-shadow: var(--shadow-lift);
+  position: relative;
+  overflow: hidden;
 }
 .auto-banner h2 { font-family: var(--font-display); font-size: 1.7rem; margin-bottom: 10px; }
 .auto-banner p { color: var(--txt-dim); margin-bottom: 22px; max-width: 380px; }
@@ -166,7 +186,9 @@
   overflow: hidden;
   background: var(--card);
   border: 1px solid var(--border);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
+.wall-card:hover { transform: translateY(-3px); border-color: rgba(255,61,129,0.4); box-shadow: var(--shadow-lift), var(--glow-pink); }
 .wall-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
 .wall-card:hover img { transform: scale(1.06); }
 .wall-card .overlay {
@@ -184,8 +206,9 @@
 /* ---------- App download banner ---------- */
 .app-banner {
   margin: 70px 0;
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
   border-radius: 22px;
   padding: 30px 40px;
   display: flex;
@@ -193,6 +216,7 @@
   gap: 26px;
   justify-content: space-between;
   flex-wrap: wrap;
+  box-shadow: var(--shadow-lift);
 }
 .app-banner-left { display: flex; align-items: center; gap: 20px; }
 .app-banner-left img.app-icon { width: 68px; height: 68px; border-radius: 18px; object-fit: cover; }
